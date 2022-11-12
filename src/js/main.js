@@ -5,14 +5,21 @@ window.addEventListener('DOMContentLoaded', () => {
           todoForm = document.querySelector('.todo-form');
           todoListBlock = document.querySelector('.todo-list-block');
     
-    function addBlockToList(btn) {
+    function addItemsToList(btn, input, form) {
         btn.addEventListener('click', () => {
-            createElementsOfList(todoListBlock, todoInput);
-            resetInputForm(todoInput);
-    });
+            if (input.value === '') {
+                insertMessage(todoForm);
+            } else {
+                createElementsOfList(todoListBlock, todoInput);
+                resetInputForm(todoInput);
+                if (form.children.length > 2) {
+                    removeMessage('.help');
+                }
+            }
+        });
     }
 
-    addBlockToList(todoButton, todoInput, todoForm, todoListBlock);
+    addItemsToList(todoButton, todoInput, todoForm);
 
     function createElementsOfList (listBlock, input) {
 
@@ -47,7 +54,23 @@ window.addEventListener('DOMContentLoaded', () => {
         blockOfButtons.appendChild(buttonDelete);
 
         finishTask(buttonDone, todoItemBlock);
+        deleteBlock(buttonDelete, todoItemBlock);
 
+    }
+
+    function insertMessage(block) {
+        const message = document.createElement('p');
+        message.classList.add('help');
+        message.innerText = 'You need to enter the text';
+        if (block.children.length <= 2) {
+            block.append(message);
+        } else {
+            message.remove();
+        }
+    }
+ 
+    function removeMessage(selector) {
+        document.querySelector(selector).remove();
     }
 
     function resetInputForm(input) {
@@ -56,8 +79,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function finishTask (button, list) {
         button.addEventListener('click', () => {
-            list.classList.add('opacity');
+            list.classList.add('done');
         });
     }
-    
+
+    function deleteBlock (button, list) {
+        button.addEventListener('click', () => {
+            list.style.display = 'none';
+        });
+    }  
 });
