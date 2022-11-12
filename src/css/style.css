@@ -1,5 +1,24 @@
 body {
-    background-color: lightblue;
+    background-color: #4e4ed1;
+}
+
+.main-title {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    font-size: 48px;
+    letter-spacing: 1.6px;
+    transition: 0.3s;
+    text-shadow: 1px 1px 0 grey, 1px 2px 0 grey, 1px 3px 0 grey, 1px 4px 0 grey,
+                 1px 5px 0 grey, 1px 6px 0 grey, 1px 7px 0 grey, 1px 8px 0 grey,
+                 5px 13px 15px black;
+}
+  
+.main-title:hover {
+    transition: 0.3s;
+    text-shadow: 1px -1px 0 grey, 1px -2px 0 grey, 1px -3px 0 grey,
+                 1px -4px 0 grey, 1px -5px 0 grey, 1px -6px 0 grey, 1px -7px 0 grey,
+                 1px -8px 0 grey, 5px -13px 15px black, 5px -13px 25px #808080;
 }
 
 .main-block {
@@ -12,14 +31,41 @@ body {
 }
 
 .main-title {
-    margin-top: 30px;
+    margin-top: 50px;
     font-size: 30px;
     text-align: center;
 }
 
 .todo-form {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 10px;
     margin: 40px 0px 50px 0px;
+}
+
+.todo-input {
+    width: 300px;
+    height: 25px;
+    font-size: 17px;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.todo-input:hover {
+    box-shadow: 0px 7px 10px rgb(32, 158, 196);
+}
+
+.todo-input::placeholder {
+    color: #B0BEC5;
+}
+
+.todo-button i {
+    font-size: 25px;
+}
+
+.help {
+    text-align: center;
 }
 
 .todo-list-block {
@@ -37,7 +83,8 @@ body {
     border-radius: 5px;
 }
 
-.opacity {
+.done {
+    text-decoration: line-through;
     opacity: 0.6;
 }
 
@@ -61,9 +108,11 @@ body {
 }
 
 .button-done {
+    padding: 5px;
     color: rgb(16, 227, 16);
 }
 
 .button-delete {
+    padding: 5px;
     color:rgb(238, 10, 10);
 }
