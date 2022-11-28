@@ -2,60 +2,85 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const todoInput = document.querySelector('.todo-input'),
           todoButton = document.querySelector('.todo-button'),
-          todoForm = document.querySelector('.todo-form');
-          todoListBlock = document.querySelector('.todo-list-block');
-    
-    function addItemsToList(btn, input, form) {
-        btn.addEventListener('click', () => {
-            if (input.value === '') {
-                insertMessage(todoForm);
-            } else {
-                createElementsOfList(todoListBlock, todoInput);
-                resetInputForm(todoInput);
-                if (form.children.length > 2) {
-                    removeMessage('.help');
-                }
+          todoForm = document.querySelector('.todo-form'),
+          todoListOfTasks = document.querySelector('.todo-list-block');
+
+    let arrOfTasks = [];
+
+    todoButton.addEventListener('click', () => {
+        if (todoInput.value === '') {
+            insertMessage(todoForm);
+        } else {
+            createTasks(todoListOfTasks, todoInput);
+            if (todoForm.children.length > 2) {
+                document.querySelector('.help').remove();
             }
-        });
+        }
+    });
+
+    todoListOfTasks.addEventListener('click', deleteTask);
+    todoListOfTasks.addEventListener('click', completeTask);
+
+    function createTasks (listOfTasks, input) {
+        const objOfTask = {
+            id: Date.now(),
+            textOfTask: input.value,
+            statusOfTask: false
+        };
+
+        arrOfTasks = [...arrOfTasks, objOfTask];
+
+        const task = `
+            <li class="todo-item" id="${objOfTask.id}">
+                <div class="title-block">
+                    <p class="todo-title">${objOfTask.textOfTask}</p>
+                </div>
+                <div class="todo-block-buttons">
+                    <button class="button-done">
+                        <i class="bi bi-check-square-fill" data-action="done"></i>
+                    </button>
+                    <button class="button-delete">
+                        <i class="bi bi-x-square-fill" data-action="delete"></i>
+                    </button>
+                </div>
+            </li>
+        `;
+
+        input.value = '';
+
+        listOfTasks.insertAdjacentHTML('beforeend', task);
     }
 
-    addItemsToList(todoButton, todoInput, todoForm);
+    function deleteTask(event) {
+        if (event.target.dataset.action !== 'delete') return;
+            
+        const parentNode = event.target.closest('.todo-item');
+        const id = Number(parentNode.id);
 
-    function createElementsOfList (listBlock, input) {
+        const indexOfTask = arrOfTasks.findIndex(function(task) {
+            if (task.id === id) {
+                return true;
+            }
+        });
 
-        const todoItemBlock = document.createElement('div'),
-              todoTitleBlock = document.createElement('div'),
-              todoTitle = document.createElement('p'),
-              blockOfButtons = document.createElement('div'),
-              buttonDone = document.createElement('button'),
-              buttonDelete = document.createElement('button');
+        arrOfTasks.splice(indexOfTask, 1);
+        parentNode.remove();
+    }
 
+    function completeTask(event) {
+        if (event.target.dataset.action !== 'done') return;
 
-        todoItemBlock.classList.add('todo-item');
-        listBlock.append(todoItemBlock);
+        const parentNode = event.target.closest('.todo-item');  
+        const id = Number(parentNode.id);
 
-        todoTitleBlock.classList.add('title-block');
-        todoItemBlock.append(todoTitleBlock);
+        arrOfTasks.filter(function(task) {
+            if (task.id === id) {
+                task.statusOfTask = true;
+            }
+        });
 
-        todoTitle.textContent = input.value;
-        todoTitle.classList.add('todo-title');
-        todoTitleBlock.append(todoTitle); 
-
-        blockOfButtons.classList.add('todo-block-buttons');
-        todoItemBlock.appendChild(blockOfButtons);
-
-        buttonDone.innerHTML = '<i class="bi bi-check-square-fill"></i>';
-        buttonDone.classList.add('button-done');
-
-        buttonDelete.innerHTML = '<i class="bi bi-x-square-fill"></i>';
-        buttonDelete.classList.add('button-delete');
-
-        blockOfButtons.appendChild(buttonDone);
-        blockOfButtons.appendChild(buttonDelete);
-
-        finishTask(buttonDone, todoItemBlock);
-        deleteBlock(buttonDelete, todoItemBlock);
-
+        parentNode.querySelector('.todo-title');
+        parentNode.classList.add('done');
     }
 
     function insertMessage(block) {
@@ -68,24 +93,5 @@ window.addEventListener('DOMContentLoaded', () => {
             message.remove();
         }
     }
- 
-    function removeMessage(selector) {
-        document.querySelector(selector).remove();
-    }
 
-    function resetInputForm(input) {
-        input.value = '';
-    }
-
-    function finishTask (button, list) {
-        button.addEventListener('click', () => {
-            list.classList.add('done');
-        });
-    }
-
-    function deleteBlock (button, list) {
-        button.addEventListener('click', () => {
-            list.style.display = 'none';
-        });
-    }  
 });
