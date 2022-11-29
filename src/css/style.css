@@ -1,28 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap');
+
 body {
-    background-color: #4e4ed1;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #1e2033;
 }
 
 .main-title {
+    margin-top: 50px;
+    font-size: 65px;
     text-align: center;
     color: rgb(255, 255, 255);
     white-space: nowrap;
-    font-size: 48px;
     letter-spacing: 1.6px;
     transition: 0.3s;
     text-shadow: 1px 1px 0 grey, 1px 2px 0 grey, 1px 3px 0 grey, 1px 4px 0 grey,
                  1px 5px 0 grey, 1px 6px 0 grey, 1px 7px 0 grey, 1px 8px 0 grey,
-                 5px 13px 15px black;
+                 5px 13px 15px rgb(7, 7, 7);
 }
   
 .main-title:hover {
     transition: 0.3s;
     text-shadow: 1px -1px 0 grey, 1px -2px 0 grey, 1px -3px 0 grey,
                  1px -4px 0 grey, 1px -5px 0 grey, 1px -6px 0 grey, 1px -7px 0 grey,
-                 1px -8px 0 grey, 5px -13px 15px black, 5px -13px 25px #808080;
+                 1px -8px 0 grey, 5px -13px 15px rgb(9, 9, 9), 5px -13px 25px #808080;
 }
 
 .main-block {
-    margin-bottom: 30px;
+    margin: 50px auto 40px;
+    width: 545px;
+    max-height: 485px;
+    overflow-y: auto;
+    background: #ffffff;
+    box-shadow: 0 80px 80px -60px rgb(87 109 151);
+    border-radius: 20px;
+}
+
+.main-block::-webkit-scrollbar {
+    width: 1px;
 }
 
 .container {
@@ -30,62 +44,56 @@ body {
     margin: 0 auto;
 }
 
-.main-title {
-    margin-top: 50px;
-    font-size: 30px;
-    text-align: center;
-}
-
 .todo-form {
+    margin: 20px 0px 50px 0px;
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     align-items: center;
-    column-gap: 10px;
-    margin: 40px 0px 50px 0px;
 }
 
 .todo-input {
-    width: 300px;
-    height: 25px;
-    font-size: 17px;
+    width: 360px;
+    height: 45px;
+    font-size: 25px;
     text-align: center;
-    border-radius: 3px;
-}
-
-.todo-input:hover {
-    box-shadow: 0px 7px 10px rgb(32, 158, 196);
+    border-bottom: 1px solid rgb(17, 17, 17);
 }
 
 .todo-input::placeholder {
     color: #B0BEC5;
 }
 
-.todo-button i {
-    font-size: 25px;
+.todo-button img {
+    box-shadow: 0 80px 80px -60px rgb(87 109 151);
+}
+
+.todo-button, .todo-block-buttons img  {
+    cursor: pointer;
 }
 
 .help {
+    margin-top: 15px;
+    font-size: 35px;
     text-align: center;
+    color: #eb0000;
+    font-weight: 800;
 }
 
 .todo-list-block {
     display: grid;
     justify-content: center;
-    row-gap: 12px;
+    row-gap: 20px;
+    margin-bottom: 30px;
+    padding-left: 0;
 }
 
 .todo-item {
     display: grid;
     grid-template-columns: 4fr 1fr;
-    width: 300px;
-    background: #ffffff;
+    height: 65px;
     color: rgb(0, 0, 0);
-    border-radius: 5px;
-}
-
-.done {
-    text-decoration: line-through;
-    opacity: 0.6;
+    border-bottom: 2px solid rgb(16, 15, 15);
 }
 
 .title-block {
@@ -94,7 +102,14 @@ body {
 }
 
 .todo-title {
+    font-size: 24px;
     padding-left: 10px;
+}
+
+.done {
+    font-size: 24px;
+    text-decoration: line-through;
+    opacity: 0.5;
 }
 
 .todo-block-buttons {
@@ -102,17 +117,6 @@ body {
     grid-auto-flow: column;
 }
 
-.todo-block-buttons i {
-    cursor: pointer;
-    font-size: 25px;
-}
-
-.button-done {
-    padding: 5px;
-    color: rgb(16, 227, 16);
-}
-
-.button-delete {
-    padding: 5px;
-    color:rgb(238, 10, 10);
+.button-done, .button-delete {
+    padding: 7px;
 }
