@@ -7,21 +7,41 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let arrOfTasks = [];
 
-    todoButton.addEventListener('click', () => {
+    const renderTasks = (task) => {
+
+        const cssClass = task.statusOfTask === true ? "todo-item done" : "todo-item";
+
+        const taskHTML = `
+            <li class="${cssClass}" id="${task.id}">
+                <div class="title-block">
+                    <p class="todo-title">${task.textOfTask}</p>
+                </div>
+                <div class="todo-block-buttons">
+                    <button class="button-done">
+                        <img src="img/done.png" alt="done-button" data-action="done">
+                    </button>
+                    <button class="button-delete">
+                        <img src="img/deleted.png" alt="delete-button" data-action="delete">
+                    </button>
+                </div>
+            </li>
+        `;
+
+        todoListOfTasks.insertAdjacentHTML('beforeend', taskHTML);
+    };
+
+    const addTasks = () => {
         if (todoInput.value === '') {
             insertMessage(todoForm);
         } else {
-            createTasks(todoListOfTasks, todoInput);
+            createTasks(todoInput);
             if (todoForm.children.length > 2) {
                 document.querySelector('.help').remove();
             }
         }
-    });
+    };
 
-    todoListOfTasks.addEventListener('click', deleteTask);
-    todoListOfTasks.addEventListener('click', completeTask);
-
-    function createTasks (listOfTasks, input) {
+    const createTasks = (input) => {
         const objOfTask = {
             id: Date.now(),
             textOfTask: input.value,
@@ -30,28 +50,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
         arrOfTasks = [...arrOfTasks, objOfTask];
 
-        const task = `
-            <li class="todo-item" id="${objOfTask.id}">
-                <div class="title-block">
-                    <p class="todo-title">${objOfTask.textOfTask}</p>
-                </div>
-                <div class="todo-block-buttons">
-                    <button class="button-done">
-                        <i class="bi bi-check-square-fill" data-action="done"></i>
-                    </button>
-                    <button class="button-delete">
-                        <i class="bi bi-x-square-fill" data-action="delete"></i>
-                    </button>
-                </div>
-            </li>
-        `;
-
+        saveTasksToLocalStorage();
+        renderTasks(objOfTask);
         input.value = '';
+    };
 
-        listOfTasks.insertAdjacentHTML('beforeend', task);
-    }
-
-    function deleteTask(event) {
+    const deleteTask = (event) => {
         if (event.target.dataset.action !== 'delete') return;
             
         const parentNode = event.target.closest('.todo-item');
@@ -65,9 +69,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         arrOfTasks.splice(indexOfTask, 1);
         parentNode.remove();
-    }
+        saveTasksToLocalStorage();
+    };
 
-    function completeTask(event) {
+    const completeTask = (event)  => {
         if (event.target.dataset.action !== 'done') return;
 
         const parentNode = event.target.closest('.todo-item');  
@@ -81,9 +86,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
         parentNode.querySelector('.todo-title');
         parentNode.classList.add('done');
-    }
+        saveTasksToLocalStorage();
+    };
 
-    function insertMessage(block) {
+    const insertMessage = (block) => {
         const message = document.createElement('p');
         message.classList.add('help');
         message.innerText = 'You need to enter the text';
@@ -92,6 +98,24 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             message.remove();
         }
+    };
+
+    const saveTasksToLocalStorage = () => {
+        localStorage.setItem('tasks', JSON.stringify(arrOfTasks));
+    };
+
+    if (localStorage.getItem('tasks')) {
+        arrOfTasks = JSON.parse(localStorage.getItem('tasks'));
+        arrOfTasks.forEach(task => renderTasks(task));
     }
 
+    todoInput.addEventListener('keypress', (event) => {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+        addTasks();
+    });
+
+    todoButton.addEventListener('click', addTasks);
+    todoListOfTasks.addEventListener('click', deleteTask);
+    todoListOfTasks.addEventListener('click', completeTask);
 });
