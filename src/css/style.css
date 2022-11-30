@@ -120,3 +120,48 @@ body {
 .button-done, .button-delete {
     padding: 7px;
 }
+
+@media (max-width: 576px) {
+    .main-title {
+        font-size: 55px;
+    }
+
+    .main-block {
+        margin: 60px auto 40px;
+        width: 90%;
+        max-height: none;
+        overflow-y: hidden;
+    }
+
+    .todo-form {
+        margin: 50px 0px;
+        row-gap: 25px;
+    }
+
+    .todo-input {
+        max-width: 310px;
+        font-size: 32px;
+    }
+
+    .todo-list-block {
+        row-gap: 35px;
+    }
+
+    .todo-item {
+        grid-template-columns: 3fr 1fr;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .todo-title {
+        font-size: 30px;
+    }
+
+    .help {
+        font-size: 27px;
+    }
+
+    .button-done, .button-delete {
+        padding: 11px;
+    }
+}
